@@ -3,7 +3,7 @@ pipeline {
         label 'docker'
     }
     environment {
-        GCP_SERVICE_ACCOUNT = credentials('service_account_jenkins')
+        GCP_SERVICE_ACCOUNT = credentials('SERVICE_ACCOUNT_GCP')
     }
     stages {
         stage('Build') {
