@@ -9,14 +9,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'build image golang'
-                sh 'docker build -t gcr.io/ferrous-module-395010/golang-apps:${BUILD_NUMBER} .'
+                sh 'docker build -t gcr.io/ferrous-module-395010/golang-app:${BUILD_NUMBER} .'
             }
         }
         stage('Push') {
             steps {
                 echo 'push to gcr'
                 sh 'cat "$GCP_SERVICE_ACCOUNT" | docker login -u _json_key --password-stdin https://gcr.io'  
-                sh 'docker push gcr.io/ferrous-module-395010/golang-apps:${BUILD_NUMBER}'
+                sh 'docker push gcr.io/ferrous-module-395010/golang-app:${BUILD_NUMBER}'
             }
         }
         stage('Deploy') {
