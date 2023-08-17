@@ -4,8 +4,6 @@ pipeline {
     }
     environment {
         GCP_SERVICE_ACCOUNT = credentials('service_account_jenkins')
-        KUBE_CONFIG = credentials('config_kube')
-        GCP_SSH_KEY = credentials('id_rsa')
     }
     stages {
         stage('Build') {
@@ -21,18 +19,9 @@ pipeline {
                 sh 'docker push gcr.io/ferrous-module-395010/golang-apps:${BUILD_NUMBER}'
             }
         }
-        stage('Active GCP Account'){
-            steps {
-                echo 'Active Account'
-                sh 'ssh -o StrictHostKeyChecking=no -i "$GCP_SSH_KEY" dickysetiadi64@34.101.98.183 "whoami"'
-                sh 'ssh -o StrictHostKeyChecking=no -i "$GCP_SSH_KEY" dickysetiadi64@34.101.98.183 ""'
-            }
-        }
         stage('Deploy') {
             steps {
                 echo 'deploy image'
-                sh 'helm repo add dicky-charts https://adhithia21.github.io/helm-charts/charts' 
-                sh 'helm upgrade --install goapp dicky-charts/application'
             }
         }
     }
